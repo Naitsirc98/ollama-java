@@ -1,7 +1,7 @@
 package naitsirc98.ollama.requests;
 
-import io.intino.alexandria.Json;
-import io.intino.alexandria.ollama.OllamaParameters;
+import com.google.gson.Gson;
+import naitsirc98.ollama.OllamaParameters;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -11,11 +11,11 @@ import java.util.Map;
 public abstract class OllamaRequest implements Serializable {
 
 	public static <T extends OllamaRequest> T fromJson(String json, Class<T> type) {
-		return Json.fromJson(json, type);
+		return new Gson().fromJson(json, type);
 	}
 
 	public String toJson() {
-		return Json.toJson(this);
+		return new Gson().toJson(this);
 	}
 
 	@Override

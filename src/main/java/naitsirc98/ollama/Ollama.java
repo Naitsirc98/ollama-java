@@ -1,8 +1,8 @@
 package naitsirc98.ollama;
 
-import io.intino.alexandria.Json;
-import io.intino.alexandria.ollama.requests.*;
-import io.intino.alexandria.ollama.responses.*;
+import com.google.gson.Gson;
+import naitsirc98.ollama.requests.*;
+import naitsirc98.ollama.responses.*;
 
 import java.io.*;
 import java.security.DigestInputStream;
@@ -159,7 +159,7 @@ public interface Ollama extends AutoCloseable {
 
 		public StreamResponse(InputStream inputStream, Class<T> responseType) {
 			this.reader = new BufferedReader(new InputStreamReader(inputStream));
-			this.iterator = reader.lines().filter(l -> !l.isBlank()).map(l -> Json.fromJson(l, responseType)).iterator();
+			this.iterator = reader.lines().filter(l -> !l.isBlank()).map(l -> new Gson().fromJson(l, responseType)).iterator();
 		}
 
 		public Stream<T> stream() {

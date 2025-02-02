@@ -1,6 +1,6 @@
 package naitsirc98.ollama.tools;
 
-import io.intino.alexandria.ollama.tools.OllamaFunction.ParamType;
+import naitsirc98.ollama.tools.OllamaFunction.ParamType;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;

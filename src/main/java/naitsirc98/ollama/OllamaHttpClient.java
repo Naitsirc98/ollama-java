@@ -1,8 +1,8 @@
 package naitsirc98.ollama;
 
-import io.intino.alexandria.Json;
-import io.intino.alexandria.ollama.requests.*;
-import io.intino.alexandria.ollama.responses.*;
+import com.google.gson.Gson;
+import naitsirc98.ollama.requests.*;
+import naitsirc98.ollama.responses.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -141,7 +141,7 @@ public class OllamaHttpClient implements Ollama {
 
 	@Override
 	public void delete(String name) throws OllamaAPIException {
-		call(deleteRequest("/api/delete", Json.toJson(Map.of("name", name))));
+		call(deleteRequest("/api/delete", new Gson().toJson(Map.of("name", name))));
 	}
 
 	@Override
@@ -162,7 +162,7 @@ public class OllamaHttpClient implements Ollama {
 
 	@Override
 	public void createBlob(File file) throws OllamaAPIException, FileNotFoundException {
-		call(post("/api/blobs/sha256:" + sha256(file), file));
+		call(post("/api/blobs/sha256:" + Ollama.sha256(file), file));
 	}
 
 	public <T extends OllamaResponse> T call(HttpRequest request, Class<T> responseType) throws OllamaAPIException {
@@ -190,7 +190,7 @@ public class OllamaHttpClient implements Ollama {
 		HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString(UTF_8));
 		if(response.statusCode() < 200 || response.statusCode() > 299) {
 			String msg = response.body();
-			if(msg.contains("{\"error\":")) msg = Json.fromJson(msg, Map.class).get("error").toString();
+			if(msg.contains("{\"error\":")) msg = new Gson().fromJson(msg, Map.class).get("error").toString();
 			throw new OllamaAPIException(response.statusCode(), "Error (" + response.statusCode() + ") when calling " + request.uri() + ": " + msg);
 		}
 		return response;
@@ -202,7 +202,7 @@ public class OllamaHttpClient implements Ollama {
 			if(response.statusCode() < 200 || response.statusCode() > 299) {
 				try(InputStream body = response.body()) {
 					String msg = body != null ? new String(body.readAllBytes(), UTF_8) : "";
-					if(msg.contains("{\"error\":")) msg = Json.fromJson(msg, Map.class).get("error").toString();
+					if(msg.contains("{\"error\":")) msg = new Gson().fromJson(msg, Map.class).get("error").toString();
 					throw new OllamaAPIException(response.statusCode(), "Error (" + response.statusCode() + ") when calling " + request.uri() + ": " + msg);
 				}
 			}

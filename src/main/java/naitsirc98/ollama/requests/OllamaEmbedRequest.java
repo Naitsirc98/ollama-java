@@ -1,8 +1,8 @@
 package naitsirc98.ollama.requests;
 
 import com.google.gson.annotations.SerializedName;
-import io.intino.alexandria.ollama.requests.OllamaRequest.WithKeepAlive;
-import io.intino.alexandria.ollama.requests.OllamaRequest.WithOptions;
+import naitsirc98.ollama.requests.OllamaRequest.WithKeepAlive;
+import naitsirc98.ollama.requests.OllamaRequest.WithOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;

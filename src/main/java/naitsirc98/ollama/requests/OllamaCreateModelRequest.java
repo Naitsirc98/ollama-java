@@ -1,6 +1,6 @@
 package naitsirc98.ollama.requests;
 
-import io.intino.alexandria.ollama.ModelFile;
+import naitsirc98.ollama.ModelFile;
 
 public class OllamaCreateModelRequest extends OllamaRequest {
 

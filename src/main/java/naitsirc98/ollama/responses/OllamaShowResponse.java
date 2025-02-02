@@ -1,7 +1,7 @@
 package naitsirc98.ollama.responses;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import io.intino.alexandria.Json;
 
 import java.util.Map;
 
@@ -127,7 +127,7 @@ public class OllamaShowResponse extends OllamaResponse {
 
 		@Override
 		public String toString() {
-			return Json.toJson(this);
+			return new Gson().toJson(this);
 		}
 	}
 }

@@ -7,6 +7,17 @@ import java.util.Map;
 
 public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 
+	default Integer numGpu() {
+		return parameter("num_gpu");
+	}
+
+	/**
+	 * Indicates how many layers will be offloaded to GPU. 0 means the model will run completely on CPU.
+	 * */
+	default Self numGpu(Integer numGpu) {
+		return parameter("num_gpu", numGpu);
+	}
+
 	default Integer mirostat() {
 		return parameter("mirostat");
 	}

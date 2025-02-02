@@ -1,7 +1,7 @@
 package naitsirc98.ollama.responses;
 
 import com.google.gson.annotations.SerializedName;
-import io.intino.alexandria.ollama.OllamaMessage;
+import naitsirc98.ollama.OllamaMessage;
 
 import java.time.OffsetDateTime;
 

@@ -1,12 +1,12 @@
 package naitsirc98.ollama.requests;
 
 import com.google.gson.annotations.SerializedName;
-import io.intino.alexandria.ollama.OllamaMessage;
-import io.intino.alexandria.ollama.OllamaParameters;
-import io.intino.alexandria.ollama.requests.OllamaRequest.WithKeepAlive;
-import io.intino.alexandria.ollama.requests.OllamaRequest.WithOptions;
-import io.intino.alexandria.ollama.tools.OllamaFunction;
-import io.intino.alexandria.ollama.tools.OllamaTool;
+import naitsirc98.ollama.OllamaMessage;
+import naitsirc98.ollama.OllamaParameters;
+import naitsirc98.ollama.requests.OllamaRequest.WithKeepAlive;
+import naitsirc98.ollama.requests.OllamaRequest.WithOptions;
+import naitsirc98.ollama.tools.OllamaFunction;
+import naitsirc98.ollama.tools.OllamaTool;
 
 import java.util.ArrayList;
 import java.util.Arrays;

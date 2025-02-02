@@ -1,17 +1,13 @@
 package naitsirc98.ollama;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import io.intino.alexandria.Base64;
-import io.intino.alexandria.Json;
-import io.intino.alexandria.ollama.tools.OllamaToolCall;
+import naitsirc98.ollama.tools.OllamaToolCall;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class OllamaMessage {
 
@@ -74,7 +70,7 @@ public class OllamaMessage {
 
 	public OllamaMessage image(File image) throws IOException {
 		if(images == null) images = new ArrayList<>(1);
-		images.add(Base64.encode(Files.readAllBytes(image.toPath())));
+		images.add(Base64.getEncoder().encodeToString(Files.readAllBytes(image.toPath())));
 		return this;
 	}
 
@@ -122,6 +118,6 @@ public class OllamaMessage {
 
 	@Override
 	public String toString() {
-		return Json.toJson(this);
+		return new Gson().toJson(this);
 	}
 }
