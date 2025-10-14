@@ -12,7 +12,7 @@ import java.util.*;
 public class OllamaMessage {
 
 	public enum Role {
-		system, user, assistant
+		system, user, assistant, tool
 	}
 
 	private Role role = Role.user;
