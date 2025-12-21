@@ -1,6 +1,6 @@
 package naitsirc98.ollama.tools;
 
-import com.google.gson.Gson;
+import naitsirc98.ollama.util.Json;
 
 public class OllamaTool {
 
@@ -36,7 +36,7 @@ public class OllamaTool {
 
 	@Override
 	public String toString() {
-		return new Gson().toJson(this);
+		return Json.toJson(this);
 	}
 
 	public enum Type {

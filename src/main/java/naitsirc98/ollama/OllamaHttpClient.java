@@ -1,8 +1,8 @@
 package naitsirc98.ollama;
 
-import com.google.gson.Gson;
 import naitsirc98.ollama.requests.*;
 import naitsirc98.ollama.responses.*;
+import naitsirc98.ollama.util.Json;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -91,12 +91,12 @@ public class OllamaHttpClient implements Ollama {
 
 	@Override
 	public OllamaCreateModelResponse createModel(OllamaCreateModelRequest createModelRequest) throws OllamaAPIException {
-		return call(post("/api/create", createModelRequest), OllamaCreateModelResponse.class);
+		return call(post("/api/create", createModelRequest.stream(false)), OllamaCreateModelResponse.class);
 	}
 
 	@Override
 	public StreamResponse<OllamaCreateModelResponse> createModelStream(OllamaCreateModelRequest createModelRequest) throws OllamaAPIException {
-		return callStream(post("/api/create", createModelRequest), OllamaCreateModelResponse.class);
+		return callStream(post("/api/create", createModelRequest.stream(true)), OllamaCreateModelResponse.class);
 	}
 
 	@Override
@@ -141,7 +141,7 @@ public class OllamaHttpClient implements Ollama {
 
 	@Override
 	public void delete(String name) throws OllamaAPIException {
-		call(deleteRequest("/api/delete", new Gson().toJson(Map.of("name", name))));
+		call(deleteRequest("/api/delete", Json.toJson(Map.of("name", name))));
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class OllamaHttpClient implements Ollama {
 		HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString(UTF_8));
 		if(response.statusCode() < 200 || response.statusCode() > 299) {
 			String msg = response.body();
-			if(msg.contains("{\"error\":")) msg = new Gson().fromJson(msg, Map.class).get("error").toString();
+			if(msg.contains("{\"error\":")) msg = Json.fromJson(msg, Map.class).get("error").toString();
 			throw new OllamaAPIException(response.statusCode(), "Error (" + response.statusCode() + ") when calling " + request.uri() + ": " + msg);
 		}
 		return response;
@@ -202,7 +202,7 @@ public class OllamaHttpClient implements Ollama {
 			if(response.statusCode() < 200 || response.statusCode() > 299) {
 				try(InputStream body = response.body()) {
 					String msg = body != null ? new String(body.readAllBytes(), UTF_8) : "";
-					if(msg.contains("{\"error\":")) msg = new Gson().fromJson(msg, Map.class).get("error").toString();
+					if(msg.contains("{\"error\":")) msg = Json.fromJson(msg, Map.class).get("error").toString();
 					throw new OllamaAPIException(response.statusCode(), "Error (" + response.statusCode() + ") when calling " + request.uri() + ": " + msg);
 				}
 			}

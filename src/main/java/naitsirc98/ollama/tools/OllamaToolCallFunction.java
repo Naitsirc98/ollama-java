@@ -1,6 +1,6 @@
 package naitsirc98.ollama.tools;
 
-import com.google.gson.Gson;
+import naitsirc98.ollama.util.Json;
 
 import java.lang.reflect.AccessFlag;
 import java.lang.reflect.Constructor;
@@ -72,7 +72,7 @@ public class OllamaToolCallFunction {
 
 	@Override
 	public String toString() {
-		return new Gson().toJson(this);
+		return Json.toJson(this);
 	}
 
 	public interface BindingParser<T> {
@@ -165,11 +165,11 @@ public class OllamaToolCallFunction {
 			}
 
 			static Object parseArray(Class<?> type, Object rawValue) {
-				return new Gson().fromJson(rawValue instanceof CharSequence ? rawValue.toString() : new Gson().toJson(rawValue), type);
+				return Json.fromJson(rawValue instanceof CharSequence ? rawValue.toString() : Json.toJson(rawValue), type);
 			}
 
 			static Object parseCollection(Class<?> type, Object rawValue) {
-				return new Gson().fromJson(rawValue instanceof CharSequence ? rawValue.toString() : new Gson().toJson(rawValue), type);
+				return Json.fromJson(rawValue instanceof CharSequence ? rawValue.toString() : Json.toJson(rawValue), type);
 			}
 
 			private static Character parseChar(Object rawValue) {

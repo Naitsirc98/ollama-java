@@ -1,17 +1,17 @@
 package naitsirc98.ollama.responses;
 
-import com.google.gson.Gson;
+import naitsirc98.ollama.util.Json;
 
 import java.io.Serializable;
 
 public class OllamaResponse implements Serializable {
 
 	public static <T extends OllamaResponse> T fromJson(String json, Class<T> type) {
-		return new Gson().fromJson(json, type);
+		return Json.fromJson(json, type);
 	}
 
 	public String toJson() {
-		return new Gson().toJson(this);
+		return Json.toJson(this);
 	}
 
 	@Override

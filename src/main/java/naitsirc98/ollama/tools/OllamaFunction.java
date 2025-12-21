@@ -1,7 +1,7 @@
 package naitsirc98.ollama.tools;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import naitsirc98.ollama.util.Json;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -124,7 +124,7 @@ public class OllamaFunction {
 
 	@Override
 	public String toString() {
-		return new Gson().toJson(this);
+		return Json.toJson(this);
 	}
 
 	public static class Parameters {
@@ -165,7 +165,7 @@ public class OllamaFunction {
 
 		@Override
 		public String toString() {
-			return new Gson().toJson(this);
+			return Json.toJson(this);
 		}
 
 		public static class Properties extends LinkedHashMap<String, Property> {}
@@ -228,7 +228,7 @@ public class OllamaFunction {
 
 			@Override
 			public String toString() {
-				return new Gson().toJson(this);
+				return Json.toJson(this);
 			}
 		}
 	}

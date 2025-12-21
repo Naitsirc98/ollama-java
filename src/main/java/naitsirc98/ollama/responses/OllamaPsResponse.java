@@ -1,7 +1,7 @@
 package naitsirc98.ollama.responses;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import naitsirc98.ollama.util.Json;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -123,7 +123,7 @@ public class OllamaPsResponse extends OllamaResponse {
 
 		@Override
 		public String toString() {
-			return new Gson().toJson(this);
+			return Json.toJson(this);
 		}
 
 		public static class Details {
@@ -207,7 +207,7 @@ public class OllamaPsResponse extends OllamaResponse {
 
 			@Override
 			public String toString() {
-				return new Gson().toJson(this);
+				return Json.toJson(this);
 			}
 		}
 	}

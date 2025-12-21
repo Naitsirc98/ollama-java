@@ -1,7 +1,7 @@
 package naitsirc98.ollama.responses;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import naitsirc98.ollama.util.Json;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class OllamaListResponse extends OllamaResponse {
 
 	@Override
 	public String toString() {
-		return new Gson().toJson(this);
+		return Json.toJson(this);
 	}
 
 	public static class OllamaModel {

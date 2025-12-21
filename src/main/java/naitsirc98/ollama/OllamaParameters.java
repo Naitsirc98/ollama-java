@@ -12,7 +12,9 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	}
 
 	/**
-	 * Indicates how many layers will be offloaded to GPU. 0 means the model will run completely on CPU.
+	 * Indicates to llama.cpp how many GPUs are available. A value of 0 will disable the use of GPU for the request, and a value
+	 * greater than 1 can be use to force llama.cpp to allocate more VRAM. This is useful if ollama is offloading less layers to the
+	 * GPU than possible, but can generate OOM CUDA errors.
 	 * */
 	default Self numGpu(Integer numGpu) {
 		return parameter("num_gpu", numGpu);
@@ -78,6 +80,41 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	 */
 	default Self repeatPenalty(Double repeatPenalty) {
 		return parameter("repeat_penalty", repeatPenalty);
+	}
+	/**
+	 * Controls how many tokens are preserved when refreshing the conversation.
+	 * For example, if set to 2, the last 2 tokens of the conversation context will be retained.
+	 * Preserving context can help maintain the continuity of a conversation, but it may reduce the ability to respond to new topics.
+	 * */
+	default Integer numKeep() {
+		return parameter("num_keep");
+	}
+
+	default Self numKeep(Integer numKeep) {
+		return parameter("num_keep", numKeep);
+	}
+
+	default Integer numThread() {
+		return parameter("num_thread");
+	}
+	/**
+	 * Set the number of worker threads used for computation. This option controls how many threads are used to process incoming requests concurrently.
+	 * Increasing this value can improve performance under high concurrency workloads but may also consume more CPU resources.
+	 * */
+	default Self numThread(Integer numThread) {
+		return parameter("num_thread", numThread);
+	}
+
+	/**
+	 * The batch size determines how many text requests are processed together at once.
+	 * A higher batch size can increase the performance and speed of the model, but it also requires more memory.
+	 * */
+	default Self numBatch(Integer numBatch) {
+		return parameter("num_batch", numBatch);
+	}
+
+	default Integer numBatch() {
+		return parameter("num_batch");
 	}
 
 	default Double temperature() {
@@ -162,7 +199,7 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 		return parameter("top_p", topP);
 	}
 
-	default Integer minP() {
+	default Double minP() {
 		return parameter("min_p");
 	}
 	/**
@@ -171,7 +208,7 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	 * relative to the probability of the most likely token. For example, with p=0.05 and the most likely token having
 	 * a probability of 0.9, logits with a value less than 0.045 are filtered out. (Default: 0.0)
 	 */
-	default Self minP(Integer minP) {
+	default Self minP(Double minP) {
 		return parameter("min_p", minP);
 	}
 

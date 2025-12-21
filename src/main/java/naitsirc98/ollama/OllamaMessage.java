@@ -1,8 +1,8 @@
 package naitsirc98.ollama;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import naitsirc98.ollama.tools.OllamaToolCall;
+import naitsirc98.ollama.util.Json;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +17,7 @@ public class OllamaMessage {
 
 	private Role role = Role.user;
 	private String content;
+	private String thinking;
 	private List<String> images;
 	@SerializedName("tool_calls")
 	private List<OllamaToolCall> toolCalls;
@@ -61,6 +62,15 @@ public class OllamaMessage {
 
 	public OllamaMessage content(String content) {
 		this.content = content;
+		return this;
+	}
+
+	public String thinking() {
+		return thinking;
+	}
+
+	public OllamaMessage thinking(String thinking) {
+		this.thinking = thinking;
 		return this;
 	}
 
@@ -118,6 +128,6 @@ public class OllamaMessage {
 
 	@Override
 	public String toString() {
-		return new Gson().toJson(this);
+		return Json.toJson(this);
 	}
 }
