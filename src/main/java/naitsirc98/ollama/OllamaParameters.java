@@ -1,9 +1,6 @@
 package naitsirc98.ollama;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 
@@ -12,10 +9,9 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	}
 
 	/**
-	 * Indicates to llama.cpp how many GPUs are available. A value of 0 will disable the use of GPU for the request, and a value
-	 * greater than 1 can be use to force llama.cpp to allocate more VRAM. This is useful if ollama is offloading less layers to the
-	 * GPU than possible, but can generate OOM CUDA errors.
-	 * */
+	 * Indicates to llama.cpp how many GPUs are available.
+	 * 0 disables GPU usage. Values greater than 1 may increase VRAM usage and risk OOM errors.
+	 */
 	default Self numGpu(Integer numGpu) {
 		return parameter("num_gpu", numGpu);
 	}
@@ -23,8 +19,10 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Integer mirostat() {
 		return parameter("mirostat");
 	}
+
 	/**
-	 * Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
+	 * Enable Mirostat sampling for controlling perplexity.
+	 * 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0
 	 */
 	default Self mirostat(Integer mirostat) {
 		return parameter("mirostat", mirostat);
@@ -33,9 +31,10 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Double mirostatEta() {
 		return parameter("mirostat_eta");
 	}
+
 	/**
-	 * Influences how quickly the algorithm responds to feedback from the generated text.
-	 * A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive. (Default: 0.1)
+	 * Learning rate for Mirostat.
+	 * Lower values react slower, higher values react faster. (Default: 0.1)
 	 */
 	default Self mirostatEta(Double mirostatEta) {
 		return parameter("mirostat_eta", mirostatEta);
@@ -44,9 +43,10 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Double mirostatTau() {
 		return parameter("mirostat_tau");
 	}
+
 	/**
-	 * Controls the balance between coherence and diversity of the output.
-	 * A lower value will result in more focused and coherent text. (Default: 5.0)
+	 * Target entropy for Mirostat.
+	 * Lower values produce more focused text. (Default: 5.0)
 	 */
 	default Self mirostatTau(Double mirostatTau) {
 		return parameter("mirostat_tau", mirostatTau);
@@ -55,8 +55,9 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Integer numCtx() {
 		return parameter("num_ctx");
 	}
+
 	/**
-	 * Sets the size of the context window used to generate the next token. (Default: 2048)
+	 * Context window size. (Default: 2048)
 	 */
 	default Self numCtx(Integer numCtx) {
 		return parameter("num_ctx", numCtx);
@@ -65,8 +66,10 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Integer repeatLastN() {
 		return parameter("repeat_last_n");
 	}
+
 	/**
-	 * Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)
+	 * Number of previous tokens to consider for repetition penalty.
+	 * 0 = disabled, -1 = num_ctx (Default: 64)
 	 */
 	default Self repeatLastN(Integer repeatLastN) {
 		return parameter("repeat_last_n", repeatLastN);
@@ -75,21 +78,21 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Double repeatPenalty() {
 		return parameter("repeat_penalty");
 	}
+
 	/**
-	 * Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient. (Default: 1.1)
+	 * Strength of repetition penalty. (Default: 1.1)
 	 */
 	default Self repeatPenalty(Double repeatPenalty) {
 		return parameter("repeat_penalty", repeatPenalty);
 	}
-	/**
-	 * Controls how many tokens are preserved when refreshing the conversation.
-	 * For example, if set to 2, the last 2 tokens of the conversation context will be retained.
-	 * Preserving context can help maintain the continuity of a conversation, but it may reduce the ability to respond to new topics.
-	 * */
+
 	default Integer numKeep() {
 		return parameter("num_keep");
 	}
 
+	/**
+	 * Number of tokens to retain when context is shifted.
+	 */
 	default Self numKeep(Integer numKeep) {
 		return parameter("num_keep", numKeep);
 	}
@@ -97,31 +100,31 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Integer numThread() {
 		return parameter("num_thread");
 	}
-	/**
-	 * Set the number of worker threads used for computation. This option controls how many threads are used to process incoming requests concurrently.
-	 * Increasing this value can improve performance under high concurrency workloads but may also consume more CPU resources.
-	 * */
-	default Self numThread(Integer numThread) {
-		return parameter("num_thread", numThread);
-	}
 
 	/**
-	 * The batch size determines how many text requests are processed together at once.
-	 * A higher batch size can increase the performance and speed of the model, but it also requires more memory.
-	 * */
-	default Self numBatch(Integer numBatch) {
-		return parameter("num_batch", numBatch);
+	 * Number of CPU threads used for inference.
+	 */
+	default Self numThread(Integer numThread) {
+		return parameter("num_thread", numThread);
 	}
 
 	default Integer numBatch() {
 		return parameter("num_batch");
 	}
 
+	/**
+	 * Batch size for token processing.
+	 */
+	default Self numBatch(Integer numBatch) {
+		return parameter("num_batch", numBatch);
+	}
+
 	default Double temperature() {
 		return parameter("temperature");
 	}
+
 	/**
-	 * The temperature of the model. Increasing the temperature will make the model answer more creatively. (Default: 0.8)
+	 * Sampling temperature. Higher values increase creativity. (Default: 0.8)
 	 */
 	default Self temperature(Double temperature) {
 		return parameter("temperature", temperature);
@@ -130,9 +133,9 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Integer seed() {
 		return parameter("seed");
 	}
+
 	/**
-	 * Sets the random number seed to use for generation. Setting this to a specific number will make the model generate
-	 * the same text for the same prompt. (Default: 0)
+	 * Random seed for deterministic output. (Default: 0)
 	 */
 	default Self seed(Integer seed) {
 		return parameter("seed", seed);
@@ -140,18 +143,18 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 
 	default List<String> stop() {
 		String[] stop = parameter("stop");
-		return Arrays.asList(stop);
+		return stop == null ? null : Arrays.asList(stop);
 	}
+
 	/**
-	 * Sets the stop sequences to use. When this pattern is encountered the LLM will stop generating text and return.
-	 * Multiple stop patterns may be set by specifying multiple separate stop parameters in a modelfile.
+	 * Stop sequences that end generation.
 	 */
 	default Self stop(Collection<String> stop) {
 		return parameter("stop", stop == null ? null : stop.toArray(String[]::new));
 	}
+
 	/**
-	 * Sets the stop sequences to use. When this pattern is encountered the LLM will stop generating text and return.
-	 * Multiple stop patterns may be set by specifying multiple separate stop parameters in a modelfile.
+	 * Stop sequences that end generation.
 	 */
 	default Self stop(String... stop) {
 		return stop(stop == null ? null : Arrays.asList(stop));
@@ -160,8 +163,9 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Double tfsZ() {
 		return parameter("tfs_z");
 	}
+
 	/**
-	 * Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting. (default: 1)
+	 * Tail-free sampling parameter. 1.0 disables it. (Default: 1.0)
 	 */
 	default Self tfsZ(Double tfsZ) {
 		return parameter("tfs_z", tfsZ);
@@ -170,8 +174,10 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Integer numPredict() {
 		return parameter("num_predict");
 	}
+
 	/**
-	 * Maximum number of tokens to predict when generating text. (Default: 128, -1 = infinite generation, -2 = fill context)
+	 * Maximum number of tokens to generate.
+	 * -1 = infinite, -2 = fill context (Default: 128)
 	 */
 	default Self numPredict(Integer numPredict) {
 		return parameter("num_predict", numPredict);
@@ -180,9 +186,9 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Integer topK() {
 		return parameter("top_k");
 	}
+
 	/**
-	 * Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers,
-	 * while a lower value (e.g. 10) will be more conservative. (Default: 40)
+	 * Top-k sampling. Lower values are more conservative. (Default: 40)
 	 */
 	default Self topK(Integer topK) {
 		return parameter("top_k", topK);
@@ -191,9 +197,9 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Double topP() {
 		return parameter("top_p");
 	}
+
 	/**
-	 * Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text,
-	 * while a lower value (e.g., 0.5) will generate more focused and conservative text. (Default: 0.9)
+	 * Nucleus sampling probability. (Default: 0.9)
 	 */
 	default Self topP(Double topP) {
 		return parameter("top_p", topP);
@@ -202,14 +208,76 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	default Double minP() {
 		return parameter("min_p");
 	}
+
 	/**
-	 * Alternative to the top_p, and aims to ensure a balance of quality and variety.
-	 * The parameter p represents the minimum probability for a token to be considered,
-	 * relative to the probability of the most likely token. For example, with p=0.05 and the most likely token having
-	 * a probability of 0.9, logits with a value less than 0.045 are filtered out. (Default: 0.0)
+	 * Minimum probability relative to the most likely token. (Default: 0.0)
 	 */
 	default Self minP(Double minP) {
 		return parameter("min_p", minP);
+	}
+
+	default Double typicalP() {
+		return parameter("typical_p");
+	}
+
+	/**
+	 * Typical sampling parameter. (Default: 1.0)
+	 */
+	default Self typicalP(Double typicalP) {
+		return parameter("typical_p", typicalP);
+	}
+
+	default Double presencePenalty() {
+		return parameter("presence_penalty");
+	}
+
+	/**
+	 * Penalizes tokens that already appeared at least once.
+	 */
+	default Self presencePenalty(Double presencePenalty) {
+		return parameter("presence_penalty", presencePenalty);
+	}
+
+	default Double frequencyPenalty() {
+		return parameter("frequency_penalty");
+	}
+
+	/**
+	 * Penalizes tokens proportionally to how often they appeared.
+	 */
+	default Self frequencyPenalty(Double frequencyPenalty) {
+		return parameter("frequency_penalty", frequencyPenalty);
+	}
+
+	default Boolean penalizeNewline() {
+		return parameter("penalize_newline");
+	}
+
+	/**
+	 * Whether to penalize newline tokens. (Default: true)
+	 */
+	default Self penalizeNewline(Boolean penalizeNewline) {
+		return parameter("penalize_newline", penalizeNewline);
+	}
+
+	default Object think() {
+		return parameter("think");
+	}
+
+	/**
+	 * Use this capability to audit model steps, animate the model thinking in a UI, or hide the trace entirely when you only need the final response.
+	 * Set the think field on chat or generate requests. Most models accept booleans
+	 * */
+	default Self think(Boolean think) {
+		return parameter("think", think);
+	}
+
+	/**
+	 * Use this capability to audit model steps, animate the model thinking in a UI, or hide the trace entirely when you only need the final response.
+	 * Set the think field on chat or generate requests. GPT-OSS models expects one of low, medium, or high to tune the trace length.
+	 * */
+	default Self think(String think) {
+		return parameter("think", think);
 	}
 
 	Map<String, Object> parametersMap();
@@ -220,8 +288,11 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 	}
 
 	default Self parameter(String name, Object value) {
-		if(value == null) parametersMap().remove(name);
-		parametersMap().put(name, value);
+		if (value == null) {
+			parametersMap().remove(name);
+		} else {
+			parametersMap().put(name, value);
+		}
 		return self();
 	}
 
