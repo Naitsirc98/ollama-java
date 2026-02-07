@@ -134,6 +134,14 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 		return parameter("seed");
 	}
 
+	default String template() {
+		return parameter("template");
+	}
+
+	default Self template(String template) {
+		return parameter("template", template);
+	}
+
 	/**
 	 * Random seed for deterministic output. (Default: 0)
 	 */
@@ -266,17 +274,9 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 
 	/**
 	 * Use this capability to audit model steps, animate the model thinking in a UI, or hide the trace entirely when you only need the final response.
-	 * Set the think field on chat or generate requests. Most models accept booleans
+	 * Set the think field on chat or generate requests. Most models accept booleans. GPT-OSS models expects one of low, medium, or high to tune the trace length.
 	 * */
-	default Self think(Boolean think) {
-		return parameter("think", think);
-	}
-
-	/**
-	 * Use this capability to audit model steps, animate the model thinking in a UI, or hide the trace entirely when you only need the final response.
-	 * Set the think field on chat or generate requests. GPT-OSS models expects one of low, medium, or high to tune the trace length.
-	 * */
-	default Self think(String think) {
+	default Self think(Object think) {
 		return parameter("think", think);
 	}
 
