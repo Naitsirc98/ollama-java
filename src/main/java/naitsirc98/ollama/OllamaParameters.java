@@ -268,18 +268,6 @@ public interface OllamaParameters<Self extends OllamaParameters<Self>> {
 		return parameter("penalize_newline", penalizeNewline);
 	}
 
-	default Object think() {
-		return parameter("think");
-	}
-
-	/**
-	 * Use this capability to audit model steps, animate the model thinking in a UI, or hide the trace entirely when you only need the final response.
-	 * Set the think field on chat or generate requests. Most models accept booleans. GPT-OSS models expects one of low, medium, or high to tune the trace length.
-	 * */
-	default Self think(Object think) {
-		return parameter("think", think);
-	}
-
 	Map<String, Object> parametersMap();
 
 	@SuppressWarnings("unchecked")

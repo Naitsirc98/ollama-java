@@ -18,7 +18,7 @@ public class OllamaGenerateRequest extends WithOptions<OllamaGenerateRequest> im
 	private String template;
 	private String format;
 	private int[] context;
-	private Boolean think;
+	private Object think;
 	private List<String> images;
 	@SerializedName("keep_alive")
 	private String keepAlive;
@@ -87,11 +87,11 @@ public class OllamaGenerateRequest extends WithOptions<OllamaGenerateRequest> im
 		return this;
 	}
 
-	public Boolean think() {
+	public Object think() {
 		return think;
 	}
 
-	public OllamaGenerateRequest think(Boolean think) {
+	public OllamaGenerateRequest think(Object think) {
 		this.think = think;
 		return this;
 	}
